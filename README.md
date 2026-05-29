@@ -1,6 +1,6 @@
 ﻿# GMIRV2401 ESP-IDF Driver
 
-基于 Modbus-RTU 协议的 GMIRV2401 万能红外转发芯片 ESP-IDF 驱动，支持空调/电视/机顶盒码库控制、63 通道红外学习和蓝牙透传。
+基于 Modbus-RTU 协议的 GMIRV2401 万能红外转发芯片 ESP-IDF 驱动，支持空调/电视/机顶盒码库控制、64 通道红外学习和蓝牙透传。
 
 ## 硬件
 
@@ -24,7 +24,7 @@ ESP32 RX (GPIO16)  →  GMIRV2401 TX
 | **空调** | 单一状态控制 (电源/温度/模式/风速/灯光)、组合状态 6 字节控制、一键匹配 |
 | **电视** | 电源/音量/频道/信号源/返回、码库代号读写 |
 | **机顶盒** | 电源/音量/频道/信号源/返回、码库代号读写 |
-| **红外学习** | 启动/退出/测试、100 字节波形读写 (63 通道)、状态轮询 |
+| **红外学习** | 启动/退出/测试、100 字节波形读写 (64 通道\)、状态轮询 |
 | **PLC 组态** | 0040H-0046H 寄存器读写、发码触发 |
 | **蓝牙透传** | 3000H 寄存器数据透传 |
 | **通用按键** | 任意设备按键发码 (通过组合状态寄存器) |
@@ -121,7 +121,7 @@ gmirv2401_stb_ch_up(dev);
 ### 红外学习
 
 ```c
-gmirv2401_ir_learn_start(dev, 1);  // 启动通道1学习
+gmirv2401_ir_learn_start(dev, 0);  // 启动通道0学习 (地址 0x5000)
 
 // 轮询状态
 uint16_t status;
@@ -130,8 +130,8 @@ if (status == 0x8002) { /* 学习完成 */ }
 
 // 读取/写入波形
 uint8_t waveform[100];
-gmirv2401_ir_read_waveform(dev, 1, waveform);
-gmirv2401_ir_learn_test(dev, 1);   // 测试发送
+gmirv2401_ir_read_waveform(dev, 0, waveform);
+gmirv2401_ir_learn_test(dev, 0);   // 测试发送
 ```
 
 ### 蓝牙透传
@@ -147,3 +147,4 @@ gmirv2401_ble_send(dev, (uint8_t*)"Hello", 5);
 ## License
 
 MIT
+

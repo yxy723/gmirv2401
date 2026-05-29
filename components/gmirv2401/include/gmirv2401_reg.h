@@ -165,18 +165,20 @@ extern "C" {
 #define GMIRV2401_REG_PLC_AC_LIGHT      0x0046
 
 /* ================================================================
- * 红外学习通道寄存器
+ * 红外学习通道寄存器 (共 64 通道: 0-63)
  *
- * 通道 1-62:  0532H-114DH (每个通道 100 bytes = 50 寄存器)
+ * 通道 0:     5000H-5031H (50 寄存器 = 100 bytes)
+ * 通道 1-62:  0532H-114DH (每个通道 50 寄存器)
  * 通道 63:    114EH-1180H (50 寄存器)
  * ================================================================ */
 
+#define GMIRV2401_REG_IR_CHANNEL_0      0x5000  /** 通道0 起始 */
 #define GMIRV2401_REG_IR_CHANNEL_BASE   0x0532  /** 通道1 起始 */
 #define GMIRV2401_REG_IR_CHANNEL_SIZE   50      /** 每通道寄存器数 */
-#define GMIRV2401_IR_CHANNEL_MAX        63      /** 最大通道数 */
+#define GMIRV2401_IR_CHANNEL_MAX        64      /** 最大通道数 (0-63) */
 
-/** 获取通道 N 的起始寄存器地址 (N: 1-63) */
-#define GMIRV2401_IR_CHANNEL_REG(n)     (GMIRV2401_REG_IR_CHANNEL_BASE + (uint16_t)((n) - 1) * GMIRV2401_REG_IR_CHANNEL_SIZE)
+/** 获取通道 N 的起始寄存器地址 (N: 0-63) */
+#define GMIRV2401_IR_CHANNEL_REG(n)     (((n) == 0) ? GMIRV2401_REG_IR_CHANNEL_0 : (GMIRV2401_REG_IR_CHANNEL_BASE + (uint16_t)((n) - 1) * GMIRV2401_REG_IR_CHANNEL_SIZE))
 
 /* ================================================================
  * 蓝牙透传寄存器
@@ -284,3 +286,4 @@ extern "C" {
 #endif
 
 #endif /* GMIRV2401_REG_H */
+

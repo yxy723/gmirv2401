@@ -191,8 +191,8 @@ static void demo_ir_learn(void)
     esp_err_t err;
     ESP_LOGI(TAG, "--- IR Learning ---");
 
-    /* 启动通道 1 学习 */
-    err = gmirv2401_ir_learn_start(g_dev, 1);
+    /* 启动通道 0 学习 */
+    err = gmirv2401_ir_learn_start(g_dev, 0);
     ESP_LOGI(TAG, "ir_learn_start(ch1): %s", err == ESP_OK ? "OK" : "FAIL");
 
     /* 轮询等待学习完成 (30秒超时) */
@@ -213,13 +213,13 @@ static void demo_ir_learn(void)
 
     /* 读取学习到的波形 */
     uint8_t waveform[100];
-    err = gmirv2401_ir_read_waveform(g_dev, 1, waveform);
+    err = gmirv2401_ir_read_waveform(g_dev, 0, waveform);
     if (err == ESP_OK) {
         ESP_LOGI(TAG, "Waveform read OK (100 bytes)");
     }
 
     /* 测试发送 */
-    err = gmirv2401_ir_learn_test(g_dev, 1);
+    err = gmirv2401_ir_learn_test(g_dev, 0);
     ESP_LOGI(TAG, "ir_learn_test(ch1): %s", err == ESP_OK ? "OK" : "FAIL");
 }
 
@@ -322,3 +322,4 @@ void app_main(void)
         vTaskDelay(pdMS_TO_TICKS(10000));
     }
 }
+

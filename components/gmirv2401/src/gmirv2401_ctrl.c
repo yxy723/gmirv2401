@@ -324,29 +324,29 @@ esp_err_t gmirv2401_stb_set_code(gmirv2401_t *handle, uint16_t code)
 
 esp_err_t gmirv2401_ir_learn_start(gmirv2401_t *handle, uint8_t channel)
 {
-    if (channel < 1 || channel > GMIRV2401_IR_CHANNEL_MAX) {
+    if (channel >= GMIRV2401_IR_CHANNEL_MAX) {
         return ESP_ERR_INVALID_ARG;
     }
-    uint16_t ch_val = (uint16_t)(channel - 1); /* 通道 0x0000-0x003F */
+    uint16_t ch_val = (uint16_t)channel; /* 通道值 0x0000-0x003F */
     ESP_LOGI(TAG, "IR learn start: channel %u (reg=0x%04X)", channel, ch_val);
     return WRITE_REG(handle, GMIRV2401_REG_IR_LEARN_START, ch_val);
 }
 
 esp_err_t gmirv2401_ir_learn_exit(gmirv2401_t *handle, uint8_t channel)
 {
-    if (channel < 1 || channel > GMIRV2401_IR_CHANNEL_MAX) {
+    if (channel >= GMIRV2401_IR_CHANNEL_MAX) {
         return ESP_ERR_INVALID_ARG;
     }
-    uint16_t ch_val = (uint16_t)(channel - 1);
+    uint16_t ch_val = (uint16_t)channel;
     return WRITE_REG(handle, GMIRV2401_REG_IR_LEARN_EXIT, ch_val);
 }
 
 esp_err_t gmirv2401_ir_learn_test(gmirv2401_t *handle, uint8_t channel)
 {
-    if (channel < 1 || channel > GMIRV2401_IR_CHANNEL_MAX) {
+    if (channel >= GMIRV2401_IR_CHANNEL_MAX) {
         return ESP_ERR_INVALID_ARG;
     }
-    uint16_t ch_val = (uint16_t)(channel - 1);
+    uint16_t ch_val = (uint16_t)channel;
     return WRITE_REG(handle, GMIRV2401_REG_IR_LEARN_TEST, ch_val);
 }
 
@@ -354,7 +354,7 @@ esp_err_t gmirv2401_ir_read_waveform(gmirv2401_t *handle,
                                      uint8_t channel,
                                      uint8_t out_data[100])
 {
-    if (channel < 1 || channel > GMIRV2401_IR_CHANNEL_MAX) {
+    if (channel >= GMIRV2401_IR_CHANNEL_MAX) {
         return ESP_ERR_INVALID_ARG;
     }
     uint16_t reg_addr = GMIRV2401_IR_CHANNEL_REG(channel);
@@ -367,7 +367,7 @@ esp_err_t gmirv2401_ir_write_waveform(gmirv2401_t *handle,
                                       uint8_t channel,
                                       const uint8_t data[100])
 {
-    if (channel < 1 || channel > GMIRV2401_IR_CHANNEL_MAX) {
+    if (channel >= GMIRV2401_IR_CHANNEL_MAX) {
         return ESP_ERR_INVALID_ARG;
     }
     uint16_t reg_addr = GMIRV2401_IR_CHANNEL_REG(channel);
@@ -494,3 +494,5 @@ esp_err_t gmirv2401_ble_send(gmirv2401_t *handle,
     free(tx);
     return err;
 }
+
+
