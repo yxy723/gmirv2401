@@ -1,0 +1,27 @@
+﻿# ESP-IDF build output
+build/
+
+# Sdkconfig (generated per-target)
+sdkconfig
+sdkconfig.old
+sdkconfig.*
+
+# Dependencies
+managed_components/
+dependencies.lock
+
+# Python
+__pycache__/
+*.pyc
+
+# VS Code
+.vscode/
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ESP-IDF flash args
+flasher_args.json
+*.bin
